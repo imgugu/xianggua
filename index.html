@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retro Music Player</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="player-container">
+        <!-- Left Side: Waveform Visualizer -->
+        <div class="visualizer-section">
+            <canvas id="waveformCanvas"></canvas>
+        </div>
+
+        <!-- Right Side: Info and Controls -->
+        <div class="controls-section">
+            <!-- Top: LED Display (1/3 Height) -->
+            <div class="led-display">
+                <div class="song-info">
+                    <span id="songTitle">READY</span>
+                </div>
+                <div class="time-info">
+                    <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <!-- Bottom: Controls (2/3 Height) -->
+            <div class="control-panel">
+                <!-- Left: Buttons (1/3 Width) -->
+                <div class="buttons-area">
+                    <button id="prevBtn" class="control-btn small-btn" title="Previous Song"></button>
+                    <button id="playBtn" class="control-btn small-btn" title="Play/Stop"></button>
+                    <button id="nextBtn" class="control-btn small-btn" title="Next Song"></button>
+                </div>
+
+                <!-- Right: Volume Knob (2/3 Width) -->
+                <div class="knob-area">
+                    <div class="knob-container">
+                        <div class="knob" id="volumeKnob">
+                            <div class="knob-indicator"></div>
+                        </div>
+                        <div class="knob-label">VOLUME</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
