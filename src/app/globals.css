@@ -1,0 +1,51 @@
+:root {
+  --bg-color: #e0e5ec;
+  --player-bg: #2b2b2b;
+  --led-bg: #1a1a1a;
+  --led-color: #00ff00;
+  --knob-color: #d1d1d1;
+  --accent-color: #ff4757;
+  --shadow-light: rgba(255, 255, 255, 0.1);
+  --shadow-dark: rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #d4fc79, #96e6a1, #fbc2eb);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  font-family: 'Arial', sans-serif;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.disclaimer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  font-family: 'Arial', sans-serif;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}

@@ -1,0 +1,117 @@
+.controlPanel {
+    height: 66.67%;
+    display: flex;
+    background: linear-gradient(145deg, #3a3a3a, #2e2e2e);
+}
+
+.buttonsArea {
+    width: 33.33%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-right: 1px solid #444;
+}
+
+.controlBtn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(145deg, #333, #222);
+    box-shadow: 5px 5px 10px #1a1a1a, -5px -5px 10px #444;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.controlBtn:active {
+    box-shadow: inset 5px 5px 10px #1a1a1a, inset -5px -5px 10px #444;
+}
+
+.controlBtn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 15px;
+    height: 15px;
+    background-color: #888;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+}
+
+.playBtn::after {
+    background-color: #0f0;
+    mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>');
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>');
+}
+
+.playBtn.playing::after {
+    background-color: #ff4757;
+    mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>');
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>');
+}
+
+.nextBtn::after {
+    mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>');
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>');
+}
+
+.prevBtn::after {
+    mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>');
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>');
+}
+
+.knobArea {
+    width: 66.67%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.knobContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.knob {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e6e6e6, #cfcfcf);
+    box-shadow: 10px 10px 20px #1a1a1a, -10px -10px 20px #444;
+    position: relative;
+    cursor: grab;
+}
+
+.knob:active {
+    cursor: grabbing;
+}
+
+.knobIndicator {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background-color: #ff4757;
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.knobLabel {
+    color: #888;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 0.9rem;
+}
