@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gainNode = audioCtx.createGain();
         gainNode.gain.value = volume;
         gainNode.connect(audioCtx.destination);
-        
+
         // Update knob rotation based on initial volume
         // Map 0-1 to -135 to 135
         currentRotation = (volume * 270) - 135;
@@ -78,10 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
         currentTimeEl.textContent = "00:00";
         totalTimeEl.textContent = "Loading...";
         progressBar.style.width = '0%';
-        
+
         // Reset audio state
         if (sourceNode) {
-            try { sourceNode.stop(); } catch(e) {}
+            try { sourceNode.stop(); } catch (e) { }
             sourceNode.disconnect();
         }
         isPlaying = false;
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isPlaying) {
                 // If it ended naturally (not stopped by user), play next
                 if (audioCtx.currentTime - startTime >= audioBuffer.duration) {
-                     nextSong();
+                    nextSong();
                 }
             }
         };
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         do {
             nextIndex = Math.floor(Math.random() * songs.length);
         } while (nextIndex === currentSongIndex && songs.length > 1);
-        
+
         loadSong(nextIndex);
         // We need to wait for buffer to load before playing, 
         // but loadSong is async. 
@@ -167,13 +167,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Refactoring loadSong to return a promise would be better, but for now:
         // We will just set a flag or call playAudio inside loadSong if needed.
         // Actually, let's just modify loadSong to auto-play if it was triggered by next/prev.
-        
+
         // Quick fix: Wait for the fetch in loadSong to complete.
         // Since I didn't make loadSong async-await friendly for the caller,
         // I'll just modify loadSong logic slightly in a real app.
         // For this prototype, let's just rely on the user clicking play or
         // add a small timeout/callback.
-        
+
         // Let's re-fetch and play immediately.
         fetch(songs[nextIndex].file)
             .then(response => response.arrayBuffer())
@@ -188,11 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function prevSong() {
-         // Previous usually goes to previous track in history or just random again?
-         // Let's just do random again for simplicity or sequential.
-         // Let's do sequential for "Previous" just to have a deterministic way to go back?
-         // Or just random. The prompt emphasizes "random play".
-         nextSong(); 
+        // Previous usually goes to previous track in history or just random again?
+        // Let's just do random again for simplicity or sequential.
+        // Let's do sequential for "Previous" just to have a deterministic way to go back?
+        // Or just random. The prompt emphasizes "random play".
+        nextSong();
     }
 
     // Controls
@@ -201,6 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
     prevBtn.addEventListener('click', prevSong); // Reusing next logic for random
 
     // Visualizer
+    // Visualizer
+    let hueOffset = 0;
     function drawVisualizer() {
         if (!isPlaying) return;
         animationId = requestAnimationFrame(drawVisualizer);
@@ -212,8 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
         canvasCtx.fillStyle = '#000';
         canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-        canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = '#00ff00'; // Green waveform
+        canvasCtx.lineWidth = 3;
+
+        // Dynamic Gradient
+        hueOffset += 2; // Speed of color change
+        if (hueOffset > 360) hueOffset = 0;
+
+        const gradient = canvasCtx.createLinearGradient(0, 0, canvas.width, 0);
+        gradient.addColorStop(0, `hsl(${hueOffset}, 100%, 50%)`);
+        gradient.addColorStop(0.5, `hsl(${(hueOffset + 120) % 360}, 100%, 50%)`);
+        gradient.addColorStop(1, `hsl(${(hueOffset + 240) % 360}, 100%, 50%)`);
+
+        canvasCtx.strokeStyle = gradient;
         canvasCtx.beginPath();
 
         const sliceWidth = canvas.width * 1.0 / bufferLength;
@@ -242,10 +254,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const elapsed = audioCtx.currentTime - startTime;
             const duration = audioBuffer.duration;
             const percent = (elapsed / duration) * 100;
-            
+
             progressBar.style.width = `${percent}%`;
             currentTimeEl.textContent = formatTime(elapsed);
-            
+
             if (elapsed < duration) {
                 requestAnimationFrame(updateProgress);
             }
@@ -263,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         volumeKnob.addEventListener('mousedown', startDrag);
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', endDrag);
-        
+
         // Touch support
         volumeKnob.addEventListener('touchstart', (e) => startDrag(e.touches[0]));
         document.addEventListener('touchmove', (e) => drag(e.touches[0]));
@@ -285,18 +297,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function drag(e) {
         if (!isDraggingKnob) return;
-        
+
         const deltaY = startY - e.clientY;
         // Sensitivity: 1 pixel = 1 degree
         let newRotation = currentRotation + deltaY;
-        
+
         // Clamp rotation
         if (newRotation > 135) newRotation = 135;
         if (newRotation < -135) newRotation = -135;
-        
+
         currentRotation = newRotation;
         startY = e.clientY; // Reset startY for relative movement
-        
+
         updateKnobVisuals();
         updateVolume();
     }
